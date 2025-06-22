@@ -1,0 +1,265 @@
+Complete AI-Guided Project Development Prompt System
+PROMPT 0: Project Ideation (Optional)
+I want to start a coding project but need help defining what to build.
+MY SITUATION:
+•	Learning goals: [what technologies/skills do you want to learn?]
+•	Time commitment: [how much time can you dedicate?]
+•	Experience level: [beginner/intermediate in what areas?]
+•	Interests: [what domains interest you? finance, health, games, productivity, etc.]
+•	Constraints: [any limitations - must be solo, no backend, etc.]
+Please suggest 3-4 project ideas that would:
+1.	Match my learning goals and experience level
+2.	Be achievable given my time/constraints
+3.	Have clear, measurable outcomes
+4.	Build on each other in complexity
+For each suggestion, explain: what you'll learn, why it's a good fit, and rough time estimate.
+Once I pick one, help me refine it into a clear project description for Prompt 1.
+________________________________________
+PROMPT 1: Project Setup & Architecture Planning
+I want to build a project from scratch and need you to be my technical architect. Here's what I need:
+PROJECT IDEA: [Provide: Brief description, main purpose, key features you envision, target users]
+Example format: "Personal expense tracker - helps users log daily expenses, categorize spending, view monthly reports, set budgets"
+YOUR RESPONSIBILITIES:
+1.	Suggest the best tech stack (frontend, backend, database, etc.) with clear reasoning
+2.	Recommend project architecture and folder structure
+3.	Propose development best practices we'll follow
+4.	Set up version control structure and conventions
+5.	Create a comprehensive PROJECT DOCUMENTATION file that tracks everything
+VERSION CONTROL SETUP:
+•	Initialize Git repository with proper structure
+•	Create appropriate .gitignore for our tech stack
+•	Establish commit message conventions
+•	Set up basic branching strategy (main/develop)
+•	Add version control guidelines to documentation
+DOCUMENTATION REQUIREMENTS:
+Create a markdown document with exactly these sections:
+DOCUMENTATION TEMPLATE STRUCTURE:
+# Project Name
+## Overview
+- Brief description
+- Core purpose
+- Target users (even if just you)
+
+## Architecture Decisions
+- Tech stack chosen and why
+- Major architectural choices
+- Alternatives considered and rejected
+
+## Project Structure
+- Folder organization
+- File naming conventions
+- Code organization patterns
+
+## Development Standards
+- Coding conventions we follow
+- Git workflow rules
+- How we handle different types of changes
+
+## Decision Log
+Date | Decision | Reasoning | Alternatives Considered
+## **PROMPT TEMPLATE: BACKLOG PLANNING**
+
+I want to organize my project features and priorities. Check our documentation first.
+
+**SITUATION:** [new project planning, reprioritizing, adding features, sprint planning]
+
+Please help me:
+
+1. Review current backlog against project goals
+2. Write proper user stories for vague features
+3. Break down large features into smaller tasks
+4. Prioritize based on [learning goals/user value/technical dependencies]
+5. Suggest what to work on next and why
+6. Update documentation with revised backlog
+
+Focus on: keeping momentum, learning progression, and delivering value quickly.
+
+-----|----------|-----------|----------------------
+[Use this table format for all major decisions]
+
+## Feature Backlog & Progress
+
+### High Priority (MVP)
+- [ ] [User Story Format] As a user, I want to... so that...
+- [x] [Completed] Brief description with what was learned
+
+### Medium Priority (Post-MVP)
+- [ ] Feature description
+- [ ] Feature description
+
+### Low Priority (Future/Nice-to-Have)
+- [ ] Feature description
+- [ ] Feature description
+
+### Current Sprint/Focus
+**What I'm building now:** [Current feature]
+**Why this next:** [Reasoning for priority]
+**Blockers/Questions:** [Any issues]
+
+## Dependencies
+- List all packages/libraries with versions
+- Why each was chosen
+- Any setup notes
+
+## Quick Reference
+- How to run the project
+- Common commands
+- Where to find key files
+
+## Learning Notes
+- New concepts learned during this project
+- Useful resources found
+- Mistakes made and lessons learned
+APPROACH:
+•	Present 2-3 options for major decisions with pros/cons
+•	Explain WHY each choice is good for this specific project
+•	Start simple, plan for growth
+•	Focus on learning while building
+Start by asking me for my project idea, then create the initial documentation structure.
+________________________________________
+PROMPT 2: Implementation Planning
+Now that we have our architecture documented, let's plan the implementation:
+1.	Break down the project into logical phases/milestones
+2.	Identify the core features for MVP (minimum viable product)
+3.	Create a development roadmap with Git workflow
+4.	Set up the initial project structure with all necessary files
+5.	Update our documentation with the implementation plan
+For each phase, explain:
+•	What we'll build
+•	Which concepts/patterns we'll learn
+•	Why this order makes sense
+•	Estimated complexity level
+•	Git branching strategy for the phase
+DELIVERABLES:
+•	Phase-by-phase development plan
+•	MVP feature list with priorities
+•	Initial project files and folder structure
+•	Updated documentation with implementation roadmap
+•	Git repository setup with first commit
+Keep everything practical and focused on learning the fundamentals properly.
+________________________________________
+PROMPT 3: Development Kickoff
+Time to start coding! Using our documented architecture and plan:
+FIRST FEATURE TO BUILD: [specify which feature from your roadmap]
+Please:
+1. Setup Phase:
+•	Generate initial project structure (folders, package.json, etc.)
+•	Create foundational files with proper boilerplate
+•	Set up basic development environment
+2. Implementation Phase:
+•	Create feature branch following our Git conventions
+•	Implement the feature following our established patterns
+•	Explain every code decision and pattern used
+•	Make meaningful commits as you progress
+3. Documentation Phase:
+•	Update progress tracker with completed work
+•	Document any new dependencies added
+•	Add any new patterns or decisions to our decision log
+•	Update quick reference if needed
+IMPLEMENTATION GUIDELINES:
+•	Start with the simplest version that works
+•	Follow our established architecture and coding standards
+•	Explain WHY you're making each code decision
+•	Ask before making any architectural changes not in our plan
+GIT WORKFLOW:
+•	Create feature branch: feature/[feature-name]
+•	Make small, focused commits with clear messages
+•	Update documentation before merging to main
+Let's build this first feature properly and establish our development rhythm.
+________________________________________
+PROMPT TEMPLATE: CONTINUING WORK
+I'm continuing work on my project. First, read our PROJECT DOCUMENTATION to understand where we are.
+CURRENT TASK: [describe what you want to do - add feature, fix bug, refactor, etc.]
+Please:
+1.	Context Check: Confirm you understand our current project state from the documentation
+2.	Implementation: [Specific request - implement X, debug Y, refactor Z, etc.]
+3.	Standards: Follow our established architecture and coding standards
+4.	Git Workflow: Use proper branching, clear commits, merge when complete
+5.	Documentation: Update the documentation with any changes made
+6.	Progress: Update the progress tracker
+BEFORE YOU START: If this task requires changes to our established patterns or architecture, explain why and get my approval first.
+IF YOU NEED CLARIFICATION: Ask about any existing code or decisions before proceeding.
+________________________________________
+PROMPT TEMPLATE: ADDING NEW FEATURES
+I want to add a new feature to our project. Check our documentation first.
+NEW FEATURE: [describe the feature]
+Please:
+1.	Review how this fits with our existing architecture
+2.	Create feature branch following our Git conventions
+3.	Suggest the best approach following our established patterns
+4.	Identify any new dependencies or architectural changes needed
+5.	Implement the feature with proper code organization
+6.	Make proper Git commits with clear messages
+7.	Update all relevant documentation
+8.	Add this to our progress tracker
+If this requires architectural changes, explain why and get my approval first.
+________________________________________
+PROMPT TEMPLATE: DEBUGGING/FIXING
+I'm having an issue with our project. Check our documentation to understand the context.
+PROBLEM: [describe the issue, error messages, unexpected behavior] WHAT I'VE TRIED: [if anything]
+Please:
+1.	Analyze the issue based on our current codebase
+2.	Create a bugfix branch following our Git workflow
+3.	Identify the root cause
+4.	Propose a fix that follows our established patterns
+5.	Implement the solution with proper commits
+6.	Update documentation if the fix reveals any architectural insights
+7.	Update progress tracker
+________________________________________
+PROMPT TEMPLATE: PROJECT RECOVERY
+Something went wrong and I need to get back on track. Review our documentation first.
+SITUATION: [describe: project won't run, code is broken, got lost in complexity, made bad architectural choice, etc.]
+WHAT HAPPENED: [when did it break, what was I doing, any error messages]
+Please:
+1.	Assess current state against our documentation
+2.	Identify what's working vs. what's broken
+3.	Suggest recovery strategy (fix vs. rollback vs. restart from last working state)
+4.	Help implement the recovery plan
+5.	Update documentation with what went wrong and how we fixed it
+6.	Suggest safeguards to prevent this specific issue
+Focus on getting back to a working state quickly, not perfection.
+________________________________________
+PROMPT TEMPLATE: CODE REVIEW
+I want to review my recent code changes. Check our documentation to understand the context.
+SCOPE: [specific files, features, or time period to review]
+Please review for:
+1.	Consistency: Does it follow our established patterns and conventions?
+2.	Clarity: Is the code easy to understand? Are variable names clear?
+3.	Organization: Is code in the right files/folders per our structure?
+4.	Potential Issues: Any obvious bugs, edge cases, or problems?
+5.	Documentation: Are comments needed? Should documentation be updated?
+Provide:
+•	Specific improvement suggestions with examples
+•	Any patterns that should be refactored for consistency
+•	Updates needed to our documentation
+•	Priority level for each issue (critical/important/nice-to-have)
+Focus on maintainability and learning, not perfection.
+________________________________________
+PROMPT TEMPLATE: REFACTORING/IMPROVEMENTS
+I want to improve our existing code. Review our documentation first.
+TARGET: [what you want to refactor - specific component, pattern, structure] GOAL: [better performance, cleaner code, new requirement, etc.]
+Please:
+1.	Analyze the current implementation
+2.	Suggest improvements following our established standards
+3.	Explain the benefits of the proposed changes
+4.	Implement the refactoring
+5.	Update documentation with any architectural changes
+6.	Update progress tracker
+________________________________________
+PROMPT TEMPLATE: LEARNING/EXPLANATION
+I want to understand something better about our project. Check our documentation.
+QUESTION: [what you want to understand - why we chose X, how Y works, etc.]
+Please explain:
+1.	The concept in the context of our specific project
+2.	Why we made this choice for our use case
+3.	How it fits with our overall architecture
+4.	Any alternatives we could consider and why we didn't choose them
+________________________________________
+USAGE NOTES:
+•	Always start with Prompt 1 for new projects
+•	Use Prompt 2 and 3 in sequence for initial setup
+•	Use the template prompts for ongoing work
+•	Keep your documentation file updated and reference it in every prompt
+•	Each prompt builds on the documented project state
+•	Focus on learning while building, not perfection
+
