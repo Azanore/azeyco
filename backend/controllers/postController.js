@@ -1,7 +1,7 @@
 const postService = require("../services/postService");
 const {
-  createSuccessResponse,
-  createErrorResponse,
+  sendSuccessResponse,
+  sendErrorResponse,
 } = require("../utils/responseUtils");
 
 /**
@@ -36,11 +36,9 @@ const createPost = async (req, res) => {
 
     const post = await postService.createPost(postData);
 
-    res
-      .status(201)
-      .json(createSuccessResponse("Post created successfully", { post }));
+    sendSuccessResponse(res, 201, "Post created successfully", { post });
   } catch (error) {
-    res.status(error.status || 500).json(createErrorResponse(error.message));
+    sendErrorResponse(res, error.status || 500, error.message);
   }
 };
 
@@ -62,9 +60,9 @@ const getPosts = async (req, res) => {
 
     const result = await postService.getPosts(options);
 
-    res.json(createSuccessResponse("Posts retrieved successfully", result));
+    sendSuccessResponse(res, 200, "Posts retrieved successfully", result);
   } catch (error) {
-    res.status(error.status || 500).json(createErrorResponse(error.message));
+    sendErrorResponse(res, error.status || 500, error.message);
   }
 };
 
@@ -78,9 +76,9 @@ const getPostById = async (req, res) => {
     const { id } = req.params;
     const post = await postService.getPostById(id);
 
-    res.json(createSuccessResponse("Post retrieved successfully", { post }));
+    sendSuccessResponse(res, 200, "Post retrieved successfully", { post });
   } catch (error) {
-    res.status(error.status || 500).json(createErrorResponse(error.message));
+    sendErrorResponse(res, error.status || 500, error.message);
   }
 };
 
@@ -116,9 +114,9 @@ const updatePost = async (req, res) => {
 
     const post = await postService.updatePost(id, authorId, updateData);
 
-    res.json(createSuccessResponse("Post updated successfully", { post }));
+    sendSuccessResponse(res, 200, "Post updated successfully", { post });
   } catch (error) {
-    res.status(error.status || 500).json(createErrorResponse(error.message));
+    sendErrorResponse(res, error.status || 500, error.message);
   }
 };
 
@@ -134,9 +132,9 @@ const deletePost = async (req, res) => {
 
     const result = await postService.deletePost(id, authorId);
 
-    res.json(createSuccessResponse(result.message));
+    sendSuccessResponse(res, 200, result.message);
   } catch (error) {
-    res.status(error.status || 500).json(createErrorResponse(error.message));
+    sendErrorResponse(res, error.status || 500, error.message);
   }
 };
 
