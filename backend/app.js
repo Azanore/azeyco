@@ -6,6 +6,7 @@ const connectDB = require("./config/db");
 // Import routes
 const userRoutes = require("./routes/userRoutes");
 const profileRoutes = require("./routes/profileRoutes");
+const postRoutes = require("./routes/postRoutes");
 
 connectDB();
 
@@ -37,6 +38,7 @@ app.use((req, res, next) => {
 // Routes
 app.use("/api/users", userRoutes);
 app.use("/api/users/profile", profileRoutes);
+app.use("/api/posts", postRoutes);
 
 app.get("/", (req, res) => {
   res.send("Azeyco API is running...");
