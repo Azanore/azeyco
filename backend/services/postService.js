@@ -163,7 +163,7 @@ const updatePost = async (postId, authorId, updateData) => {
       post.content = content.trim();
     }
 
-    // Validate media if provided
+    // Update media if provided (replace existing media)
     if (media !== undefined) {
       if (media.length > 10) {
         throw createError("Maximum 10 media files allowed per post", 400);

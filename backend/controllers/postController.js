@@ -16,8 +16,8 @@ const createPost = async (req, res) => {
 
     // Process uploaded media files
     const media = [];
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
+    if (req.files && req.files.media && req.files.media.length > 0) {
+      for (const file of req.files.media) {
         media.push({
           url: `/uploads/posts/${file.filename}`,
           type: "image",
@@ -95,8 +95,8 @@ const updatePost = async (req, res) => {
 
     // Process uploaded media files
     const media = [];
-    if (req.files && req.files.length > 0) {
-      for (const file of req.files) {
+    if (req.files && req.files.media && req.files.media.length > 0) {
+      for (const file of req.files.media) {
         media.push({
           url: `/uploads/posts/${file.filename}`,
           type: "image",
@@ -108,7 +108,7 @@ const updatePost = async (req, res) => {
 
     const updateData = {
       content,
-      media: media.length > 0 ? media : undefined,
+      media,
       visibility,
     };
 
