@@ -32,4 +32,12 @@ pnpm-debug.log*
 
 # Operating system files
 .DS_Store
-Thumbs.db 
+Thumbs.db
+
+# Sensitive files and API collections
+Prompts.txt
+*_api_collection.json
+*.postman_collection.json
+
+# Uploaded files (user content)
+/backend/uploads/ 

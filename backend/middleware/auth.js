@@ -82,4 +82,7 @@ const handleAuthError = (error, res) => {
   sendUnauthorizedError(res, "Server error during authentication.");
 };
 
+/**
+ * Export the protect middleware as a named function for consistency with project standards
+ */
 module.exports = { protect };

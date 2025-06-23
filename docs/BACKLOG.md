@@ -5,7 +5,7 @@ This document tracks all planned features, user stories, and progress.
 ### High Priority (MVP)
 
 - [x] As a user, I want to register, log in, and verify my email so that I can securely access the platform ✅ COMPLETED (Basic auth without email verification)
-- [ ] As a user, I want to manage my profile (bio, photo, cover) so that I can personalize my presence
+- [x] As a user, I want to manage my profile (bio, photo, cover) so that I can personalize my presence ✅ COMPLETED
 - [ ] As a user, I want to create text/media posts with character limits so that I can share content
 - [ ] As a user, I want to comment and reply (with media) so that I can engage with posts
 - [ ] As a user, I want to like/react to posts and comments so that I can express feedback
@@ -40,8 +40,36 @@ This document tracks all planned features, user stories, and progress.
 
 ### Current Sprint/Focus
 
-**What I'm building now:** User authentication system ✅ COMPLETED
-**What was implemented:** User model, registration, login, JWT authentication, input validation
-**Dependencies added:** bcrypt, jsonwebtoken, express-validator
-**Next priority:** Profile management (bio, photo, cover) or Post creation system
-**Blockers/Questions:** None - ready for next feature
+**What I'm building now:** Profile Management System ✅ COMPLETED
+**What was implemented:**
+
+- User model, registration, login, JWT authentication, input validation ✅
+- Profile information updates (firstName, lastName, bio) ✅
+- Profile picture upload/removal (5MB limit, image validation) ✅
+- Cover picture upload/removal (10MB limit, image validation) ✅
+- File storage with automatic cleanup of old files ✅
+- Static file serving for uploaded images ✅
+  **Dependencies added:** bcrypt, jsonwebtoken, express-validator, multer
+  **Next priority:** Post creation system (text/media posts with character limits)
+  **Blockers/Questions:** None - ready for next feature
+
+### Profile Management Implementation Details
+
+**Endpoints Created:**
+
+- `PUT /api/users/profile` - Update profile information
+- `POST /api/users/profile/picture` - Upload profile picture
+- `POST /api/users/profile/cover` - Upload cover picture
+- `DELETE /api/users/profile/picture` - Remove profile picture
+- `DELETE /api/users/profile/cover` - Remove cover picture
+
+**Features:**
+
+- ✅ Input validation for profile fields
+- ✅ File type validation (images only)
+- ✅ File size limits (5MB profile, 10MB cover)
+- ✅ Automatic old file cleanup
+- ✅ Cross-platform path handling
+- ✅ Static file serving
+- ✅ Complete API documentation
+- ✅ Postman collection updated

@@ -1,9 +1,11 @@
 require("dotenv").config();
 const express = require("express");
+const path = require("path");
 const connectDB = require("./config/db");
 
 // Import routes
 const userRoutes = require("./routes/userRoutes");
+const profileRoutes = require("./routes/profileRoutes");
 
 connectDB();
 
@@ -12,6 +14,9 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware
 app.use(express.json());
+
+// Serve static files from uploads directory
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // CORS middleware (for frontend communication)
 app.use((req, res, next) => {
@@ -31,6 +36,7 @@ app.use((req, res, next) => {
 
 // Routes
 app.use("/api/users", userRoutes);
+app.use("/api/users/profile", profileRoutes);
 
 app.get("/", (req, res) => {
   res.send("Azeyco API is running...");
