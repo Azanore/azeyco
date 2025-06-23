@@ -1,81 +1,142 @@
-# Backend Reference Guide
+# Backend Reference
 
-This document serves as a quick-reference index for the backend codebase. It provides a high-level overview of the file structure and key dependencies.
+This document provides quick navigation and reference for the backend codebase.
 
-## File Structure Overview
+## File Structure
 
-This section briefly describes the purpose of key directories and files.
+```
+/backend
+├── app.js                          # Main application entry point
+├── package.json                    # Dependencies and scripts
+├── .env                           # Environment variables (not in git)
+├── /config
+│   └── db.js                      # Database connection configuration
+├── /controllers
+│   ├── userController.js          # User authentication logic
+│   └── profileController.js       # Profile management logic
+├── /middleware
+│   ├── auth.js                    # JWT authentication middleware
+│   └── upload.js                  # File upload middleware (multer)
+├── /models
+│   └── User.js                    # User data model and schema
+├── /routes
+│   ├── userRoutes.js              # User authentication routes
+│   └── profileRoutes.js           # Profile management routes
+├── /services
+│   ├── jwtService.js              # JWT token operations
+│   └── userService.js             # User business logic
+├── /utils
+│   └── responseUtils.js           # Standardized response helpers
+├── /validators
+│   ├── userValidators.js          # User input validation
+│   └── profileValidators.js       # Profile input validation
+└── /uploads                       # File storage (not in git)
+    ├── /profile-pictures          # Profile picture uploads
+    └── /cover-pictures            # Cover picture uploads
+```
 
-- `/`
-  - `app.js`: The main server entry point. It initializes the Express application, connects to the database, sets up middleware, and defines routes.
-  - `package.json`: Defines project metadata, npm scripts, and lists all dependencies.
-- `/config`
-  - `db.js`: Contains the reusable logic for establishing a connection to the MongoDB database.
-- `/controllers`
-  - `userController.js`: Contains the HTTP request handlers for user operations (thin layer that delegates to services).
-- `/models`
-  - `User.js`: Contains the Mongoose schema for user data with password hashing and validation.
-- `/routes`
-  - `userRoutes.js`: Contains Express API route definitions for user authentication endpoints.
-- `/middleware`
-  - `auth.js`: Contains JWT authentication middleware for protecting private routes.
-- `/services`
-  - `userService.js`: Contains business logic for user operations (registration, authentication, profile management).
-  - `jwtService.js`: Contains JWT token generation, verification, and management logic.
-- `/utils`
-  - `responseUtils.js`: Contains utility functions for consistent API responses (success, error, validation).
-- `/validators`
-  - `userValidators.js`: Contains centralized validation schemas for user input validation.
+## Dependencies
 
-## Backend Dependencies
+### Core Dependencies
 
-### Production Dependencies
-
-- `bcrypt`: For password hashing and comparison.
-- `dotenv`: For loading environment variables from a `.env` file.
-- `express`: The web application framework for Node.js.
-- `express-validator`: For input validation and sanitization.
-- `jsonwebtoken`: For generating and verifying JWT tokens.
-- `mongoose`: The Object Data Modeling (ODM) library for MongoDB.
+- **express**: ^5.1.0 - Web framework
+- **mongoose**: ^8.16.0 - MongoDB ODM
+- **bcrypt**: ^6.0.0 - Password hashing
+- **jsonwebtoken**: ^9.0.2 - JWT authentication
+- **express-validator**: ^7.2.1 - Input validation
+- **multer**: ^1.4.5 - File upload handling
+- **dotenv**: ^16.5.0 - Environment variables
 
 ### Development Dependencies
 
-- `nodemon`: Automatically restarts the server during development when file changes are detected.
+- **nodemon**: ^3.1.10 - Development server with auto-restart
 
-## Architecture Patterns Implemented
+## Key Files and Their Purposes
 
-### **Service Layer Pattern**
+### Entry Point
 
-- Business logic separated from controllers
-- `userService.js` handles user operations
-- `jwtService.js` handles token operations
+- **app.js**: Main server file, middleware setup, route registration
 
-### **Utility Functions (DRY Principle)**
+### Models
 
-- `responseUtils.js` provides consistent API responses
-- Eliminates code duplication across controllers
+- **User.js**: User schema with validation, password hashing, and methods
 
-### **Validation Separation**
+### Controllers
 
-- `userValidators.js` centralizes validation rules
-- Reusable validation schemas
+- **userController.js**: Registration, login, profile retrieval
+- **profileController.js**: Profile updates, picture uploads/removal
 
-### **Single Responsibility Principle**
+### Middleware
 
-- Each file has a single, well-defined purpose
-- Controllers handle HTTP requests only
-- Services handle business logic only
-- Middleware handles request processing only
+- **auth.js**: JWT token verification and user authentication
+- **upload.js**: File upload configuration for profile/cover pictures
+
+### Routes
+
+- **userRoutes.js**: Authentication endpoints (/register, /login, /profile)
+- **profileRoutes.js**: Profile management endpoints (/profile/\*)
+
+### Services
+
+- **jwtService.js**: JWT token generation and verification
+- **userService.js**: User business logic and database operations
+
+### Validators
+
+- **userValidators.js**: Registration and login validation rules
+- **profileValidators.js**: Profile update validation rules
+
+### Utils
+
+- **responseUtils.js**: Standardized API response helpers
 
 ## API Endpoints
 
-### User Authentication
+### Authentication
 
-- `POST /api/users/register` - Register a new user
-- `POST /api/users/login` - Login user
-- `GET /api/users/profile` - Get current user profile (protected)
+- `POST /api/users/register` - User registration
+- `POST /api/users/login` - User login
+- `GET /api/users/profile` - Get current user profile
 
-## Related Documentation
+### Profile Management
 
-- For detailed API endpoint specifications, see [API Documentation](API.md).
-- For detailed database model structures, see [Database Schema](SCHEMA.md).
+- `PUT /api/users/profile` - Update profile information
+- `POST /api/users/profile/picture` - Upload profile picture
+- `POST /api/users/profile/cover` - Upload cover picture
+- `DELETE /api/users/profile/picture` - Remove profile picture
+- `DELETE /api/users/profile/cover` - Remove cover picture
+
+## Environment Variables
+
+Create a `.env` file in the `/backend` directory:
+
+```env
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/azeyco
+JWT_SECRET=your_jwt_secret_here
+```
+
+## Running the Backend
+
+```bash
+# Development mode (with auto-restart)
+npm run dev
+
+# Production mode
+npm start
+```
+
+## File Upload Configuration
+
+- **Profile Pictures**: Max 5MB, stored in `/uploads/profile-pictures/`
+- **Cover Pictures**: Max 10MB, stored in `/uploads/cover-pictures/`
+- **File Types**: Images only (JPEG, PNG, GIF, etc.)
+- **Access**: Files served statically at `/uploads/`
+
+## Security Features
+
+- JWT-based authentication
+- Password hashing with bcrypt (12 salt rounds)
+- Input validation with express-validator
+- File type and size validation
+- Automatic cleanup of old uploaded files

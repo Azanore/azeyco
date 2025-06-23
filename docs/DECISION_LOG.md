@@ -1,5 +1,137 @@
 # Decision Log
 
+This document tracks all major architectural decisions made during the project development.
+
+## 2024-06-23: Profile Management System Implementation
+
+### Decision: Hybrid API Approach for Profile Management
+
+**Context:** Needed to implement profile updates and file uploads
+**Decision:** Separate endpoints for text updates vs file uploads
+**Reasoning:**
+
+- Clear separation of concerns
+- Easy to implement and test individually
+- Follows REST principles
+- Flexible (can update text without touching images)
+  **Alternatives Considered:**
+- Single endpoint with multipart (complex request handling)
+- Base64 storage (larger database, slower queries)
+
+### Decision: Local File Storage for MVP
+
+**Context:** Needed to store profile and cover pictures
+**Decision:** Use local file system with multer middleware
+**Reasoning:**
+
+- Free and simple implementation
+- No external dependencies
+- Full control over files
+- Easy to migrate to cloud storage later
+  **Alternatives Considered:**
+- Cloud storage (potential costs, external dependency)
+- Base64 storage (larger database size)
+
+### Decision: File Upload Configuration
+
+**Context:** Setting up file upload limits and validation
+**Decision:** 5MB for profile pictures, 10MB for cover pictures, images only
+**Reasoning:**
+
+- Reasonable file sizes for web use
+- Cover pictures can be larger due to aspect ratio needs
+- Image-only restriction for security
+  **Implementation:** Multer middleware with file filtering and size limits
+
+### Decision: Automatic File Cleanup
+
+**Context:** Managing storage when users update pictures
+**Decision:** Automatically delete old files when new ones are uploaded
+**Reasoning:**
+
+- Prevents storage bloat
+- Clean user experience
+- No orphaned files
+  **Implementation:** Check for existing files and delete before saving new ones
+
+## 2024-06-23: Git Repository Security
+
+### Decision: Remove Sensitive Files from Repository
+
+**Context:** Prompts.txt and API collection files were accidentally committed
+**Decision:** Remove from repository and add to .gitignore
+**Reasoning:**
+
+- Prompts.txt contains sensitive project information
+- API collections may contain test data
+- These files should not be in version control
+  **Implementation:**
+- Used `git rm --cached` to remove from tracking
+- Updated .gitignore to prevent future commits
+- Added patterns for similar files
+
+### Decision: Update .gitignore Patterns
+
+**Context:** Need to prevent sensitive files from being committed
+**Decision:** Add patterns for API collections and upload directories
+**Reasoning:**
+
+- Prevent accidental commits of sensitive files
+- Exclude user-generated content from version control
+- Follow security best practices
+  **Implementation:** Added patterns for `*_api_collection.json`, `*.postman_collection.json`, and `/backend/uploads/`
+
+## 2024-06-23: Middleware Import/Export Standardization
+
+### Decision: Named Exports for Middleware
+
+**Context:** Inconsistent middleware import/export patterns causing errors
+**Decision:** Use named exports `{ protect }` for middleware functions
+**Reasoning:**
+
+- Consistent with project standards
+- Clear function naming
+- Prevents import/export mismatches
+  **Implementation:** Updated auth middleware export and all route imports
+
+## 2024-06-23: Initial Project Setup
+
+### Decision: Tech Stack Selection
+
+**Context:** Building a modern social networking platform
+**Decision:** React + Node.js + Express + MongoDB + JWT
+**Reasoning:**
+
+- JavaScript full-stack for consistency
+- React for modern UI development
+- MongoDB for flexible social data
+- JWT for stateless authentication
+  **Alternatives Considered:**
+- PostgreSQL (strong relational DB, but MongoDB chosen for flexibility)
+- Auth0/Firebase Auth (easy, but less control)
+
+### Decision: Monorepo Structure
+
+**Context:** Organizing frontend and backend code
+**Decision:** Separate folders for frontend and backend in single repository
+**Reasoning:**
+
+- Easier to manage dependencies
+- Clear separation of concerns
+- Simplified deployment
+- Single version control for entire project
+
+### Decision: MVC + Service Layer Architecture
+
+**Context:** Organizing backend code structure
+**Decision:** Controllers (thin) + Services (business logic) + Models (data)
+**Reasoning:**
+
+- Clear separation of concerns
+- Testable business logic
+- Scalable architecture
+- Follows established patterns
+
 | Date       | Decision                                              | Reasoning                                            | Alternatives Considered                  |
 | ---------- | ----------------------------------------------------- | ---------------------------------------------------- | ---------------------------------------- |
 | 2024-06-07 | Chose React, Node/Express, MongoDB, JWT, Socket.IO    | Best fit for requirements, learning, and scalability | PostgreSQL, Auth0, Pusher                |
