@@ -1,7 +1,11 @@
-const User = require("../models/User");
 const { validationResult } = require("express-validator");
-const fs = require("fs");
-const path = require("path");
+const userService = require("../services/userService");
+const {
+  sendSuccessResponse,
+  sendErrorResponse,
+  sendValidationError,
+  sendNotFoundError,
+} = require("../utils/responseUtils");
 
 /**
  * Update user profile information
@@ -10,50 +14,23 @@ const path = require("path");
  */
 const updateProfile = async (req, res) => {
   try {
-    // Check for validation errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({
-        success: false,
-        message: "Validation failed",
-        errors: errors.array(),
-      });
+      return sendValidationError(res, errors.array());
     }
-
+    const userId = req.userId;
     const { firstName, lastName, bio } = req.body;
-    const userId = req.user.id;
-
-    // Find user and update
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        firstName,
-        lastName,
-        bio,
-      },
-      { new: true, runValidators: true }
-    ).select("-password");
-
-    if (!updatedUser) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    res.json({
-      success: true,
-      message: "Profile updated successfully",
-      data: {
-        user: updatedUser,
-      },
+    const user = await userService.updateUserProfile(userId, {
+      firstName,
+      lastName,
+      bio,
     });
+    sendSuccessResponse(res, 200, "Profile updated successfully", { user });
   } catch (error) {
-    console.error("Profile update error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    if (error.message === "User not found") {
+      return sendNotFoundError(res, "User");
+    }
+    sendErrorResponse(res, 500, "Server error");
   }
 };
 
@@ -64,55 +41,23 @@ const updateProfile = async (req, res) => {
  */
 const uploadProfilePicture = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "No file uploaded",
-      });
-    }
-
-    const userId = req.user.id;
-    const filePath = req.file.path;
-
-    // Find user
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    // Delete old profile picture if it exists
-    if (user.profilePicture && user.profilePicture !== filePath) {
-      const oldFilePath = path.join(__dirname, "..", user.profilePicture);
-      if (fs.existsSync(oldFilePath)) {
-        fs.unlinkSync(oldFilePath);
-      }
-    }
-
-    // Update user with new profile picture path
-    const updatedUser = await User.findByIdAndUpdate(
+    const userId = req.userId;
+    const user = await userService.uploadUserPicture(
       userId,
-      {
-        profilePicture: filePath.replace(/\\/g, "/"), // Normalize path for cross-platform
-      },
-      { new: true }
-    ).select("-password");
-
-    res.json({
-      success: true,
-      message: "Profile picture uploaded successfully",
-      data: {
-        user: updatedUser,
-      },
+      req.file,
+      "profile"
+    );
+    sendSuccessResponse(res, 200, "Profile picture uploaded successfully", {
+      user,
     });
   } catch (error) {
-    console.error("Profile picture upload error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    if (error.message === "No file uploaded") {
+      return sendErrorResponse(res, 400, error.message);
+    }
+    if (error.message === "User not found") {
+      return sendNotFoundError(res, "User");
+    }
+    sendErrorResponse(res, 500, "Server error");
   }
 };
 
@@ -123,55 +68,19 @@ const uploadProfilePicture = async (req, res) => {
  */
 const uploadCoverPicture = async (req, res) => {
   try {
-    if (!req.file) {
-      return res.status(400).json({
-        success: false,
-        message: "No file uploaded",
-      });
-    }
-
-    const userId = req.user.id;
-    const filePath = req.file.path;
-
-    // Find user
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    // Delete old cover picture if it exists
-    if (user.coverPicture && user.coverPicture !== filePath) {
-      const oldFilePath = path.join(__dirname, "..", user.coverPicture);
-      if (fs.existsSync(oldFilePath)) {
-        fs.unlinkSync(oldFilePath);
-      }
-    }
-
-    // Update user with new cover picture path
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        coverPicture: filePath.replace(/\\/g, "/"), // Normalize path for cross-platform
-      },
-      { new: true }
-    ).select("-password");
-
-    res.json({
-      success: true,
-      message: "Cover picture uploaded successfully",
-      data: {
-        user: updatedUser,
-      },
+    const userId = req.userId;
+    const user = await userService.uploadUserPicture(userId, req.file, "cover");
+    sendSuccessResponse(res, 200, "Cover picture uploaded successfully", {
+      user,
     });
   } catch (error) {
-    console.error("Cover picture upload error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    if (error.message === "No file uploaded") {
+      return sendErrorResponse(res, 400, error.message);
+    }
+    if (error.message === "User not found") {
+      return sendNotFoundError(res, "User");
+    }
+    sendErrorResponse(res, 500, "Server error");
   }
 };
 
@@ -182,47 +91,16 @@ const uploadCoverPicture = async (req, res) => {
  */
 const removeProfilePicture = async (req, res) => {
   try {
-    const userId = req.user.id;
-
-    // Find user
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    // Delete file if it exists
-    if (user.profilePicture) {
-      const filePath = path.join(__dirname, "..", user.profilePicture);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
-
-    // Update user to remove profile picture
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        profilePicture: null,
-      },
-      { new: true }
-    ).select("-password");
-
-    res.json({
-      success: true,
-      message: "Profile picture removed successfully",
-      data: {
-        user: updatedUser,
-      },
+    const userId = req.userId;
+    const user = await userService.removeUserPicture(userId, "profile");
+    sendSuccessResponse(res, 200, "Profile picture removed successfully", {
+      user,
     });
   } catch (error) {
-    console.error("Profile picture removal error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    if (error.message === "User not found") {
+      return sendNotFoundError(res, "User");
+    }
+    sendErrorResponse(res, 500, "Server error");
   }
 };
 
@@ -233,47 +111,16 @@ const removeProfilePicture = async (req, res) => {
  */
 const removeCoverPicture = async (req, res) => {
   try {
-    const userId = req.user.id;
-
-    // Find user
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({
-        success: false,
-        message: "User not found",
-      });
-    }
-
-    // Delete file if it exists
-    if (user.coverPicture) {
-      const filePath = path.join(__dirname, "..", user.coverPicture);
-      if (fs.existsSync(filePath)) {
-        fs.unlinkSync(filePath);
-      }
-    }
-
-    // Update user to remove cover picture
-    const updatedUser = await User.findByIdAndUpdate(
-      userId,
-      {
-        coverPicture: null,
-      },
-      { new: true }
-    ).select("-password");
-
-    res.json({
-      success: true,
-      message: "Cover picture removed successfully",
-      data: {
-        user: updatedUser,
-      },
+    const userId = req.userId;
+    const user = await userService.removeUserPicture(userId, "cover");
+    sendSuccessResponse(res, 200, "Cover picture removed successfully", {
+      user,
     });
   } catch (error) {
-    console.error("Cover picture removal error:", error);
-    res.status(500).json({
-      success: false,
-      message: "Server error",
-    });
+    if (error.message === "User not found") {
+      return sendNotFoundError(res, "User");
+    }
+    sendErrorResponse(res, 500, "Server error");
   }
 };
 

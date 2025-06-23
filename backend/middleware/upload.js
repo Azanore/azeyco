@@ -25,6 +25,18 @@ const coverPictureStorage = multer.diskStorage({
   },
 });
 
+// Configure storage for post media
+const postMediaStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/posts/");
+  },
+  filename: (req, file, cb) => {
+    // Generate unique filename with timestamp
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, "post-" + uniqueSuffix + path.extname(file.originalname));
+  },
+});
+
 // File filter function
 const fileFilter = (req, file, cb) => {
   // Check file type
@@ -52,7 +64,16 @@ const uploadCoverPicture = multer({
   },
 });
 
+const uploadPostMedia = multer({
+  storage: postMediaStorage,
+  fileFilter: fileFilter,
+  limits: {
+    fileSize: 2 * 1024 * 1024, // 2MB limit per image
+  },
+});
+
 module.exports = {
   uploadProfilePicture,
   uploadCoverPicture,
+  uploadPostMedia,
 };

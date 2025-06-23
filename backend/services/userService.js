@@ -4,6 +4,8 @@
  */
 const User = require("../models/User");
 const jwtService = require("./jwtService");
+const fs = require("fs");
+const path = require("path");
 
 /**
  * Create a new user account
@@ -106,9 +108,73 @@ const userExists = async (email, username) => {
   return !!existingUser;
 };
 
+/**
+ * Update user profile information
+ * @param {string} userId - User ID
+ * @param {Object} updates - Fields to update (firstName, lastName, bio)
+ * @returns {Object} Updated user profile
+ */
+const updateUserProfile = async (userId, updates) => {
+  const user = await User.findByIdAndUpdate(userId, updates, {
+    new: true,
+    runValidators: true,
+  });
+  if (!user) throw new Error("User not found");
+  return user.getPublicProfile();
+};
+
+/**
+ * Upload profile or cover picture
+ * @param {string} userId - User ID
+ * @param {Object} file - Multer file object
+ * @param {string} type - 'profile' or 'cover'
+ * @returns {Object} Updated user profile
+ */
+const uploadUserPicture = async (userId, file, type) => {
+  if (!file) throw new Error("No file uploaded");
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found");
+  const filePath = file.path.replace(/\\/g, "/");
+  const field = type === "profile" ? "profilePicture" : "coverPicture";
+  // Delete old picture if it exists and is different
+  if (user[field] && user[field] !== filePath) {
+    const oldFilePath = path.join(__dirname, "..", user[field]);
+    if (fs.existsSync(oldFilePath)) {
+      fs.unlinkSync(oldFilePath);
+    }
+  }
+  user[field] = filePath;
+  await user.save();
+  return user.getPublicProfile();
+};
+
+/**
+ * Remove profile or cover picture
+ * @param {string} userId - User ID
+ * @param {string} type - 'profile' or 'cover'
+ * @returns {Object} Updated user profile
+ */
+const removeUserPicture = async (userId, type) => {
+  const user = await User.findById(userId);
+  if (!user) throw new Error("User not found");
+  const field = type === "profile" ? "profilePicture" : "coverPicture";
+  if (user[field]) {
+    const filePath = path.join(__dirname, "..", user[field]);
+    if (fs.existsSync(filePath)) {
+      fs.unlinkSync(filePath);
+    }
+    user[field] = null;
+    await user.save();
+  }
+  return user.getPublicProfile();
+};
+
 module.exports = {
   createUser,
   authenticateUser,
   getUserProfile,
   userExists,
+  updateUserProfile,
+  uploadUserPicture,
+  removeUserPicture,
 };
