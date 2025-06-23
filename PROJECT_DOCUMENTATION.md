@@ -45,6 +45,8 @@
     - `/services`: For business logic and external service interactions.
     - `/middleware`: For request processing functions.
     - `/utils`: For helper functions and utilities.
+    - `/validators`: For input validation schemas.
+    - `/uploads`: For file storage (not in git).
 - **Documentation organization:**
   - `PROJECT_DOCUMENTATION.md`: Main architectural blueprint and index
   - `/docs/API.md`: Detailed API endpoint specifications
@@ -114,7 +116,10 @@
 ├── /routes/          # Route definitions
 ├── /middleware/      # Request processing functions
 ├── /utils/           # Helper functions and utilities
-└── /validators/      # Input validation schemas
+├── /validators/      # Input validation schemas
+└── /uploads/         # File storage (not in git)
+    ├── /profile-pictures
+    └── /cover-pictures
 ```
 
 #### **Frontend Structure**
@@ -169,6 +174,7 @@
 - **CORS:** Configure proper CORS settings
 - **Rate Limiting:** Implement rate limiting for API endpoints
 - **Environment Variables:** Store sensitive data in environment variables
+- **File Upload Security:** Validate file types and sizes, automatic cleanup
 
 ### **Performance Patterns**
 
@@ -239,17 +245,49 @@ See [Database Schema](docs/SCHEMA.md) for all model specifications.
 ## Dependencies
 
 - **Frontend:** React, React Router, Axios, etc. (to be added as implemented)
-- **Backend:** Express, Mongoose, Socket.IO, JWT, Nodemailer, dotenv, nodemon (dev)
+- **Backend:** Express, Mongoose, Socket.IO, JWT, bcrypt, express-validator, multer, dotenv, nodemon (dev)
 - **Why chosen:** See Architecture Decisions
-- **Setup notes:** Dependencies will be listed and versioned as they are added during development.
+- **Setup notes:** Dependencies are listed and versioned as they are added during development.
+
+## Current Project Status
+
+### ✅ Completed Features
+
+- **User Authentication System:**
+
+  - User registration and login
+  - JWT token-based authentication
+  - Input validation and error handling
+  - Service layer architecture
+
+- **Profile Management System:**
+  - Profile information updates (firstName, lastName, bio)
+  - Profile picture upload/removal (5MB limit)
+  - Cover picture upload/removal (10MB limit)
+  - File storage with automatic cleanup
+  - Static file serving for uploaded images
+
+### 🔄 In Progress
+
+- **Post Creation System:** Next priority feature
+
+### 📋 Planned Features
+
+- Comment and reply system
+- Like/react functionality
+- Follow/unfollow system
+- Search functionality
+- User profile pages
 
 ## Quick Reference
 
 - **How to run the project:** See README.md
-- **Common commands:** To be added
-- **Key files:** `/frontend/src/index.js`, `/backend/app.js`, `/backend/config/db.js`
-- **Environment Setup:** Create a `.env` file in the `/backend` directory with `PORT` and `MONGO_URI` variables.
-- **API Testing:** Use `azeyco_api_collection.json` for Postman testing
+- **Common commands:**
+  - Backend: `cd backend && npm run dev`
+  - Frontend: `cd frontend && npm run dev`
+- **Key files:** `/frontend/src/main.jsx`, `/backend/app.js`, `/backend/config/db.js`
+- **Environment Setup:** Create a `.env` file in the `/backend` directory with `PORT`, `MONGO_URI`, and `JWT_SECRET` variables.
+- **API Testing:** Use Postman with the documented endpoints
 - **Quick Navigation:**
   - Backend files and dependencies: [Backend Reference](docs/BACKEND_REFERENCE.md)
   - Frontend components and dependencies: [Frontend Reference](docs/FRONTEND_REFERENCE.md)
@@ -264,7 +302,6 @@ See [Database Schema](docs/SCHEMA.md) for all model specifications.
   @backend/app.js
   @docs/BACKEND_REFERENCE.md
   @docs/BACKLOG.md
-  @azeyco_api_collection.json
   ```
 
 ## Learning Notes
