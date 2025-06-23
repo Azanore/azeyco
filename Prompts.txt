@@ -25,6 +25,8 @@ YOUR RESPONSIBILITIES:
 3.	Propose development best practices we'll follow
 4.	Set up version control structure and conventions
 5.	Create a comprehensive PROJECT DOCUMENTATION file that tracks everything
+6.	Establish documentation strategy and create reference files
+7.	Define code standards and commenting conventions
 VERSION CONTROL SETUP:
 •	Initialize Git repository with proper structure
 •	Create appropriate .gitignore for our tech stack
@@ -49,14 +51,42 @@ DOCUMENTATION TEMPLATE STRUCTURE:
 - Folder organization
 - File naming conventions
 - Code organization patterns
+- Documentation organization
 
 ## Development Standards
 - Coding conventions we follow
 - Git workflow rules
 - How we handle different types of changes
+- Error handling strategy
+- Code commenting standards (JSDoc for backend, component registry for frontend)
 
 ## Decision Log
 Date | Decision | Reasoning | Alternatives Considered
+
+## Implementation Plan
+- Development roadmap and Git workflow
+- Link to detailed backlog
+
+## API Documentation
+- Link to detailed API specs
+
+## Database Schema
+- Link to detailed schema docs
+
+## Dependencies
+- List all packages/libraries with versions
+- Why each was chosen
+- Any setup notes
+
+## Quick Reference
+- How to run the project
+- Common commands
+- Where to find key files
+- Quick file tags for new chats
+
+## Learning Notes
+- Link to detailed learning log
+
 ## **PROMPT TEMPLATE: BACKLOG PLANNING**
 
 I want to organize my project features and priorities. Check our documentation first.
@@ -110,6 +140,14 @@ Focus on: keeping momentum, learning progression, and delivering value quickly.
 - New concepts learned during this project
 - Useful resources found
 - Mistakes made and lessons learned
+
+DOCUMENTATION STRATEGY:
+•	Create separate reference files in `/docs` folder for large, dynamic sections
+•	Create `BACKEND_REFERENCE.md` and `FRONTEND_REFERENCE.md` for quick navigation
+•	Use main PROJECT_DOCUMENTATION.md as an index pointing to detailed docs
+•	Document dependencies in reference files for easy access
+•	Create specific files: `API.md`, `SCHEMA.md`, `BACKLOG.md`, `DECISION_LOG.md`, `LEARNINGS.md`
+•	Include quick file tags section for easy new chat context
 APPROACH:
 •	Present 2-3 options for major decisions with pros/cons
 •	Explain WHY each choice is good for this specific project
@@ -124,6 +162,8 @@ Now that we have our architecture documented, let's plan the implementation:
 3.	Create a development roadmap with Git workflow
 4.	Set up the initial project structure with all necessary files
 5.	Update our documentation with the implementation plan
+6.	Plan documentation separation strategy for large sections
+7.	Define code commenting standards and component registry approach
 For each phase, explain:
 •	What we'll build
 •	Which concepts/patterns we'll learn
@@ -136,6 +176,9 @@ DELIVERABLES:
 •	Initial project files and folder structure
 •	Updated documentation with implementation roadmap
 •	Git repository setup with first commit
+•	Reference documentation files for quick navigation (`BACKEND_REFERENCE.md`, `FRONTEND_REFERENCE.md`)
+•	Detailed documentation files (`API.md`, `SCHEMA.md`, `BACKLOG.md`, `DECISION_LOG.md`, `LEARNINGS.md`)
+•	Code standards documentation
 Keep everything practical and focused on learning the fundamentals properly.
 ________________________________________
 PROMPT 3: Development Kickoff
@@ -146,20 +189,37 @@ Please:
 •	Generate initial project structure (folders, package.json, etc.)
 •	Create foundational files with proper boilerplate
 •	Set up basic development environment
-2. Implementation Phase:
+2. Model Design Discussion Phase:
+•	If this involves new data models, discuss the schema structure, required vs optional fields, validation rules, and relationships
+•	Present 2-3 model design approaches with reasoning for each
+•	Discuss to confirm the best model structure before implementing
+3. API Structure Discussion Phase:
+•	If this involves new endpoints, discuss the URL structure, HTTP methods, request/response formats, and authentication requirements
+•	Present 2-3 API structure approaches with reasoning for each
+•	Discuss to confirm the best API design before implementing
+4. Technology Discussion Phase:
+•	Suggest the technologies/dependencies we'll need for this feature, including pros and cons
+•	Present 2-3 implementation approaches with reasoning for each
+•	Discuss to confirm the best path forward before implementing
+5. Implementation Phase:
 •	Create feature branch following our Git conventions
-•	Implement the feature following our established patterns
+•	Implement the feature following our established patterns once we've agreed on the approach
 •	Explain every code decision and pattern used
 •	Make meaningful commits as you progress
-3. Documentation Phase:
+6. Documentation Phase:
 •	Update progress tracker with completed work
 •	Document any new dependencies added
 •	Add any new patterns or decisions to our decision log
 •	Update quick reference if needed
+•	Update reference documentation with new files and dependencies
+•	Document any new architectural decisions or patterns discovered
+•	Update appropriate detailed docs (`API.md`, `SCHEMA.md`, `BACKLOG.md`, etc.)
+•	Update Postman collection with new endpoints for testing
 IMPLEMENTATION GUIDELINES:
 •	Start with the simplest version that works
 •	Follow our established architecture and coding standards
 •	Explain WHY you're making each code decision
+•	Always discuss model design, API structure, dependencies and approaches first, just like we did for the initial tech stack selection
 •	Ask before making any architectural changes not in our plan
 GIT WORKFLOW:
 •	Create feature branch: feature/[feature-name]
@@ -168,31 +228,41 @@ GIT WORKFLOW:
 Let's build this first feature properly and establish our development rhythm.
 ________________________________________
 PROMPT TEMPLATE: CONTINUING WORK
-I'm continuing work on my project. First, read our PROJECT DOCUMENTATION to understand where we are.
+I'm continuing work on my project. First, read our PROJECT_DOCUMENTATION to understand where we are.
 CURRENT TASK: [describe what you want to do - add feature, fix bug, refactor, etc.]
 Please:
 1.	Context Check: Confirm you understand our current project state from the documentation
-2.	Implementation: [Specific request - implement X, debug Y, refactor Z, etc.]
-3.	Standards: Follow our established architecture and coding standards
-4.	Git Workflow: Use proper branching, clear commits, merge when complete
-5.	Documentation: Update the documentation with any changes made
-6.	Progress: Update the progress tracker
-BEFORE YOU START: If this task requires changes to our established patterns or architecture, explain why and get my approval first.
+2.	Model Design Discussion: If this involves new data models, discuss the schema structure, required vs optional fields, validation rules, and relationships
+3.	API Structure Discussion: If this involves new endpoints, discuss the URL structure, HTTP methods, request/response formats, and authentication requirements
+4.	Technology Discussion: Before implementing, suggest the technologies/dependencies we'll work with, including pros and cons for each option
+5.	Approach Discussion: Present 2-3 implementation approaches with reasoning for each, then discuss to confirm the best path forward
+6.	Implementation: Once we've agreed on the approach, implement the feature following our established patterns
+7.	Standards: Follow our established architecture and coding standards
+8.	Git Workflow: Use proper branching, clear commits, merge when complete
+9.	Documentation: Update the documentation with any changes made
+10.	API Documentation: Update Postman collection with new endpoints for testing
+11.	Progress: Update the progress tracker
+BEFORE YOU START: Always discuss model design, API structure, dependencies and architectural approaches first, just like we did for the initial tech stack selection in PROMPT 1.
 IF YOU NEED CLARIFICATION: Ask about any existing code or decisions before proceeding.
+NOTE: Use the quick file tags from PROJECT_DOCUMENTATION.md for new chat context.
 ________________________________________
 PROMPT TEMPLATE: ADDING NEW FEATURES
 I want to add a new feature to our project. Check our documentation first.
 NEW FEATURE: [describe the feature]
 Please:
 1.	Review how this fits with our existing architecture
-2.	Create feature branch following our Git conventions
-3.	Suggest the best approach following our established patterns
-4.	Identify any new dependencies or architectural changes needed
-5.	Implement the feature with proper code organization
-6.	Make proper Git commits with clear messages
-7.	Update all relevant documentation
-8.	Add this to our progress tracker
-If this requires architectural changes, explain why and get my approval first.
+2.	Model Design Discussion: If this involves new data models, discuss the schema structure, required vs optional fields, validation rules, and relationships
+3.	API Structure Discussion: If this involves new endpoints, discuss the URL structure, HTTP methods, request/response formats, and authentication requirements
+4.	Technology Discussion: Suggest the technologies/dependencies we'll need, including pros and cons for each option
+5.	Approach Discussion: Present 2-3 implementation approaches with reasoning for each, then discuss to confirm the best path forward
+6.	Create feature branch following our Git conventions
+7.	Implement the feature with proper code organization once we've agreed on the approach
+8.	Make proper Git commits with clear messages
+9.	Update all relevant documentation
+10.	Update Postman collection with new endpoints for testing
+11.	Add this to our progress tracker
+BEFORE YOU START: Always discuss model design, API structure, dependencies and architectural approaches first, just like we did for the initial tech stack selection in PROMPT 1.
+If this requires architectural changes, explain why and get your approval first.
 ________________________________________
 PROMPT TEMPLATE: DEBUGGING/FIXING
 I'm having an issue with our project. Check our documentation to understand the context.
