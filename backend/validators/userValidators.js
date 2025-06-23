@@ -51,31 +51,7 @@ const loginValidation = [
   body("password").notEmpty().withMessage("Password is required"),
 ];
 
-/**
- * Validation rules for profile updates
- */
-const updateProfileValidation = [
-  body("firstName")
-    .optional()
-    .trim()
-    .isLength({ max: 50 })
-    .withMessage("First name cannot exceed 50 characters"),
-
-  body("lastName")
-    .optional()
-    .trim()
-    .isLength({ max: 50 })
-    .withMessage("Last name cannot exceed 50 characters"),
-
-  body("bio")
-    .optional()
-    .trim()
-    .isLength({ max: 500 })
-    .withMessage("Bio cannot exceed 500 characters"),
-];
-
 module.exports = {
   registerValidation,
   loginValidation,
-  updateProfileValidation,
 };

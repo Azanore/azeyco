@@ -1,24 +1,24 @@
+/**
+ * Profile Validation Schemas
+ */
 const { body } = require("express-validator");
 
-/**
- * Validation rules for updating profile information
- */
 const updateProfileValidation = [
   body("firstName")
     .optional()
     .trim()
-    .isLength({ min: 1, max: 50 })
-    .withMessage("First name must be between 1 and 50 characters")
+    .isLength({ max: 50 })
+    .withMessage("First name cannot exceed 50 characters")
     .matches(/^[a-zA-Z\s]+$/)
-    .withMessage("First name can only contain letters and spaces"),
+    .withMessage("First name must only contain letters and spaces"),
 
   body("lastName")
     .optional()
     .trim()
-    .isLength({ min: 1, max: 50 })
-    .withMessage("Last name must be between 1 and 50 characters")
+    .isLength({ max: 50 })
+    .withMessage("Last name cannot exceed 50 characters")
     .matches(/^[a-zA-Z\s]+$/)
-    .withMessage("Last name can only contain letters and spaces"),
+    .withMessage("Last name must only contain letters and spaces"),
 
   body("bio")
     .optional()

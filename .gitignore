@@ -34,6 +34,10 @@ pnpm-debug.log*
 .DS_Store
 Thumbs.db
 
+# Project Documentation (local only)
+/docs/
+PROJECT_DOCUMENTATION.md
+
 # Sensitive files and API collections
 Prompts.txt
 *_api_collection.json
